@@ -18,21 +18,7 @@ It's better if your implementation is more complicated and faster than this naiv
 
 
 ### Main ideas:
-- Break the main task into separate steps: read from file,
-  compute a hash for every string and put it to a specific topic based on hashcode, read from a topic, and push to local set to work out the number of unique elements.
-- In the end, compute a sum
-- Every topic reader contains its own set to remove synchronization problems.
-- The hashcode plays a crucial role in defining the topic and sending similar IPs to the same topic.
-
-Thank you for your attention, but I must warn you that I didn't have enough time to polish my code until the end. \
-I think that "done is better than perfect". \
-However, I left a place to criticize myself:
-1. Messy code in the place where the read, shuffle, and inserter tasks are defined
-2. A simple architecture decision to communicate between different parts of tasks through common memory. The event
-   communication approach will decouple code between parts, now code contains a dependency on the value set in the
-   previous step
-3. Code uses a ready hash implementation
-4. There is no one place to configure the application runtime behavior.
+- Read the file sequentially and put the result into 4 bloom filters to achieve the best accuracy.
 
 ### Local env 
 MacBook M1 pro with 16gb 14inch
