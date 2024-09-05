@@ -18,7 +18,10 @@ It's better if your implementation is more complicated and faster than this naiv
 
 
 ### Main ideas:
-- Read the file sequentially and put the result into 4 bloom filters to achieve the best accuracy.
+1. Create your own collection to store all IP addresses in a single large integer array, with the ability to update it atomically without the need for locks.
+2. Develop your own ByteBuffer iterator to read data in large batches, ensuring that it checks boundaries to retrieve complete lines.
+3. Process each ByteBuffer by parsing bytes into an integer variable and storing the IP addresses in the collection.
+4. To enhance processing speed, establish workers to handle ByteBuffers in separate threads and add the processed IP addresses to the collection.
 
 ### Local env 
 MacBook M1 pro with 16gb 14inch
@@ -42,11 +45,11 @@ And run a benchmark
 ./gradlew jmh
 ```
 
-My local results:
+My local results with memory limitations in 700mb.
 ```bash
 Benchmark                                                   (filePath)  Mode  Cnt       Score      Error  Units
-IpSetUniqueCounterBenchmark.singleThreadUniqueCounter  ./ips_500MB.txt  avgt    5   13457.687 ±  548.704  ms/op
-IpSetUniqueCounterBenchmark.singleThreadUniqueCounter    ./ips_2GB.txt  avgt    5   54638.901 ± 2018.370  ms/op
-IpSetUniqueCounterBenchmark.singleThreadUniqueCounter    ./ips_5GB.txt  avgt    5  136165.394 ± 4525.458  ms/op
-IpSetUniqueCounterBenchmark.singleThreadUniqueCounter   ./ips_40GB.txt  avgt    3 1175901.696 ± 51093.961  ms/op
+FileReaderUniqueCounterBenchmark.fileReaderUniqueCounterB  ./ips_500MB.txt  avgt    5    1327.586 ±    88.087  ms/op
+FileReaderUniqueCounterBenchmark.fileReaderUniqueCounterB    ./ips_2GB.txt  avgt    5    4996.530 ±   693.006  ms/op
+FileReaderUniqueCounterBenchmark.fileReaderUniqueCounterB    ./ips_5GB.txt  avgt    5   19187.520 ±  2492.848  ms/op
+FileReaderUniqueCounterBenchmark.fileReaderUniqueCounterB   ./ips_40GB.txt  avgt    5  149983.407 ± 14705.654  ms/op
 ```
