@@ -12,8 +12,9 @@ public class Main {
     public static void main(String[] args) {
         String filePathStr = args[0];
         Path filePath = Path.of(filePathStr);
-        var multithreadingUniqueCounter = new SingleThreadUniqueCounter();
-        long uniqueNumOfElementsInFile = multithreadingUniqueCounter.numOfUniqueLinesIn(filePath.toFile());
+        var fileReaderUniqueCounter = new FileReaderUniqueCounter();
+        long uniqueNumOfElementsInFile = fileReaderUniqueCounter.numOfUniqueLinesIn(filePath.toFile());
+
         log.debug("Unique numbers of elements in file {} is {}",filePathStr, uniqueNumOfElementsInFile);
     }
 }

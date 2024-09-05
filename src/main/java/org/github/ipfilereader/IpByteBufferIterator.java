@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import static java.nio.channels.FileChannel.MapMode.READ_ONLY;
 
 
-final class ChunkIterator implements Iterator<ByteBuffer> {
+final class IpByteBufferIterator implements Iterator<ByteBuffer> {
     static final int IP_RECORD_BYTES = 16;
     private static final int MIN_CHUNK_SIZE = 1 << 10;
     private static final int PARALLELISM = Runtime.getRuntime().availableProcessors();
@@ -20,7 +20,7 @@ final class ChunkIterator implements Iterator<ByteBuffer> {
     private long lastEnd;
     private final int chunkSize;
 
-    ChunkIterator(FileChannel fileChannel) {
+    IpByteBufferIterator(FileChannel fileChannel) {
         try {
             this.size = fileChannel.size();
         } catch (IOException e) {
@@ -51,11 +51,13 @@ final class ChunkIterator implements Iterator<ByteBuffer> {
             throw new NoSuchElementException();
         }
         long nextEnd = lastEnd + chunkSize;
+
         if (nextEnd >= size) {
             nextEnd = size;
         } else {
             nextEnd = findLastIpEnd(nextEnd);
         }
+
         try {
             long readSize = nextEnd - lastEnd;
             final ByteBuffer byteBuffer = fileChannel.map(READ_ONLY, lastEnd, readSize);

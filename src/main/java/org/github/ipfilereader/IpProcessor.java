@@ -6,7 +6,6 @@ import java.util.function.IntConsumer;
 public class IpProcessor {
 
     private static final char DOT = '.';
-    private static final long BUFFER_SIZE = Runtime.getRuntime().availableProcessors();
     public static final int SEGMENT_BIT_SIZE = 8;
     public static final char ZERO = '0';
     public static final char NINE = '9';

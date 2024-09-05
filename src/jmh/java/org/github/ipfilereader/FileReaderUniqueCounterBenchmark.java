@@ -17,16 +17,16 @@ import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 @State(Scope.Benchmark)
-public class IpSetUniqueCounterBenchmark {
+public class FileReaderUniqueCounterBenchmark {
 
-    //@Param({"./ips_500MB.txt", "./ips_2GB.txt", "./ips_5GB.txt", "./ips_40GB"})
-    @Param({"./ips_500MB.txt", "./ips_2GB.txt", "./ips_5GB.txt"})
+    @Param({"./ips_500MB.txt", "./ips_2GB.txt", "./ips_5GB.txt", "./ips_40GB.txt"})
     private String filePath;
-    private SingleThreadUniqueCounter singleThreadUniqueCounter;
+
+    private FileReaderUniqueCounter fileReaderUniqueCounter;
 
     @Setup
     public void setup() {
-        singleThreadUniqueCounter = new SingleThreadUniqueCounter();
+        fileReaderUniqueCounter = new FileReaderUniqueCounter();
     }
 
     @Benchmark
@@ -35,8 +35,8 @@ public class IpSetUniqueCounterBenchmark {
     @Warmup(iterations = 2, timeUnit = TimeUnit.MILLISECONDS)
     @Measurement(iterations = 5, timeUnit = TimeUnit.MILLISECONDS)
     @Fork(value = 1,  jvmArgs = {"-Xms700m", "-Xmx700m"})
-    public void singleThreadUniqueCounter(Blackhole blackhole) {
-        long num = singleThreadUniqueCounter.numOfUniqueLinesIn(Paths.get(filePath).toFile());
+    public void fileReaderUniqueCounterB(Blackhole blackhole) {
+        long num = fileReaderUniqueCounter.numOfUniqueLinesIn(Paths.get(filePath).toFile());
         blackhole.consume(num);
     }
 
