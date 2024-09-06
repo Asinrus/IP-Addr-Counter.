@@ -10,11 +10,12 @@ public class Main {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
+
         String filePathStr = args[0];
         Path filePath = Path.of(filePathStr);
         var fileReaderUniqueCounter = new FileReaderUniqueCounter();
+        log.debug("Start of counting");
         long uniqueNumOfElementsInFile = fileReaderUniqueCounter.numOfUniqueLinesIn(filePath.toFile());
-
         log.debug("Unique numbers of elements in file {} is {}",filePathStr, uniqueNumOfElementsInFile);
     }
 }

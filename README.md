@@ -29,7 +29,11 @@ MacBook M1 pro with 16gb 14inch
 ### Run 
 Example of a run command
 ```bash
-java -Xms700m -Xmx700m -jar build/libs/multithreadIPReader-1.0.jar ./ips_2GB.txt
+./gradlew clean build 
+
+java -Xms700m -Xmx700m -jar build/libs/multithreadIPReader-1.0.jar ./ips_40GB.txt
+2024-09-06 11:34:25 [main] DEBUG org.github.ipfilereader.Main - Start of counting
+2024-09-06 11:37:16 [main] DEBUG org.github.ipfilereader.Main - Unique numbers of elements in file ./ips_40GB.txt is 2162621211
 ```
 
 ### Test
