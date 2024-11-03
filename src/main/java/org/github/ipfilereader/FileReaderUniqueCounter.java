@@ -3,7 +3,11 @@ package org.github.ipfilereader;
 import org.github.ipfilereader.exception.InterruptedOperation;
 import org.github.ipfilereader.set.AllIpAddressesSet;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -40,7 +44,6 @@ public class FileReaderUniqueCounter implements UniqueCounter {
                     return 0;
                 });
             }
-
             executorService.shutdown();
             if(!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
                 throw new InterruptedOperation("Operations are not finished in 10 minutes");

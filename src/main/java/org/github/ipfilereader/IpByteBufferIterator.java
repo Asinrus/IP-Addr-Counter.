@@ -51,7 +51,6 @@ final class IpByteBufferIterator implements Iterator<ByteBuffer> {
             throw new NoSuchElementException();
         }
         long nextEnd = lastEnd + chunkSize;
-
         if (nextEnd >= size) {
             nextEnd = size;
         } else {
@@ -73,15 +72,16 @@ final class IpByteBufferIterator implements Iterator<ByteBuffer> {
         try {
             bb.clear();
             fileChannel.read(bb, pos);
-            for (int i = 0; i < bb.capacity(); i++) {
-                char c = (char) bb.get(i);
+            bb.flip(); // Ensure the buffer is ready to be read
+            while (bb.hasRemaining()) {
+                char c = (char) bb.get();
                 if (c == '\n') {
-                    return pos + i;
+                    return pos + bb.position();
                 }
             }
-            throw new IllegalStateException("Invalid IP format");
+            throw new IllegalStateException("Invalid IP format or unable to find record boundary.");
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new RuntimeException("Error finding IP record boundary.", e);
         }
     }
 }
